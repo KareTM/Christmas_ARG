@@ -7,8 +7,8 @@
 
     .grid-container {
         background-color: #222222;
-        width: 50%;
-        margin-left: 25%;
+        width: 70%;
+        margin-left: 15%;
         overflow-y: hidden;
         overflow-x: hidden;
         word-wrap: normal;
@@ -17,8 +17,8 @@
     }
 
     .image {
-        width: 75%;
-        margin-left: 12.5%;
+        width: 50%;
+        margin-left: 25%;
         align-self: center;
     }
 
@@ -67,8 +67,17 @@
     .solve_text {
         align-self: center;
         margin-left: 50%;
+        width: fit-content;
         font-size: 2em;
         line-height: 2em;
+        overflow: auto;
+        overflow-y: visible;
+        line-break: strict;
+        hyphens: none;
+        overflow-x: auto;
+        overflow-wrap: break-word;
+        white-space: break-spaces;
+        word-wrap: break-word;
         height: fit-content;
         --font-color: #aaaaaa;
     }
@@ -118,8 +127,8 @@
 
             // Create JSON for the first POST request
             var json1 = JSON.stringify({
-                "solution": solution_text,
-                "userHashID": getCookie("userHashID")
+                "userHashID": getCookie("userHashID"),
+                "solution": solution_text
             });
 
             // Make the first POST request to "/users"
@@ -138,7 +147,7 @@
 
                         inst = document.createElement("h1");
                         inst.className = "solve_text";
-                        inst_text = "Congratulations! Send to the owner this code: " + getCookie("userHashID");
+                        inst_text = "Congratulations! Send to the owner this code: \n" + getCookie("userHashID");
 
                         text_node = document.createTextNode(inst_text)
                         inst.appendChild(text_node)
