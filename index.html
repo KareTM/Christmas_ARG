@@ -104,7 +104,7 @@
             user_cmd += inputText.toLowerCase();
 
             // Update the terminal display
-            var termDisplay = term_user + ":" + folder + "$ " + user_cmd;
+            var termDisplay = term_user + "@" + term_machine + ":" + folder + "$ " + user_cmd;
             console.log(termDisplay);
 
             text.nodeValue = termDisplay;
@@ -124,7 +124,8 @@
             }
         };
 
-        term_user = "guest@santa-cluster";
+        term_user = "guest";
+        term_machine = "santa-cluster"
         folder = "~";
 
         term = document.getElementById("terminal_box");
@@ -133,17 +134,20 @@
         curr_line = document.createElement("h5");
         curr_line.className = "terminal-prompt";
 
-        text = document.createTextNode(term_user + ":" + folder + "$ " + user_cmd);
+        text = document.createTextNode(term_user + "@" + term_machine + ":" + folder + "$ " + user_cmd);
         curr_line.appendChild(text);
         term.appendChild(curr_line);
 
         document.addEventListener("keydown", (e) => {
+            e.preventDefault()
+
             if (e.key == "Enter") {
 
                 // Create JSON for the first POST request
                 var json1 = JSON.stringify({
                     "loc": folder,
-                    "cmd": user_cmd
+                    "cmd": user_cmd,
+                    "user": term_user
                 });
 
                 // Make the POST request to "/terminal"
@@ -155,10 +159,25 @@
                     if (xhr1.readyState === 4 && xhr1.status === 200) {
                         var response = JSON.parse(xhr1.responseText);
                         var newFolder = response.new_folder;
+                        var newUser = response.new_user;
+                        var redirect = response.redirect;
+
+                        if (redirect != "") {
+                            window.location.href = "./" + redirect;
+                        }
 
                         if (newFolder != "") {
                             folder = newFolder;
+                            text.nodeValue = term_user + "@" + term_machine + ":" + folder + "$ " + user_cmd;
                         }
+
+                        if (newUser != "") {
+                            term_user = newUser;
+                            text.nodeValue = term_user + "@" + term_machine + ":" + folder + "$ " + user_cmd;
+                        }
+
+                        if (response.message == "")
+                            return;
 
                         msgArr = response.message.split("\n")
                         msgArr.forEach((msg) => {
@@ -185,7 +204,7 @@
                 // Create a new curr_line below the current one
                 curr_line = document.createElement("h5");
                 curr_line.className = "terminal-prompt";
-                text = document.createTextNode(term_user + ":" + folder + "$ " + user_cmd);
+                text = document.createTextNode(term_user + "@" + term_machine + ":" + folder + "$ " + user_cmd);
                 curr_line.appendChild(text);
 
                 // Append the new curr_line to the terminal
@@ -203,7 +222,7 @@
                 }
             }
 
-            text.nodeValue = term_user + ":" + folder + "$ " + user_cmd;
+            text.nodeValue = term_user + "@" + term_machine + ":" + folder + "$ " + user_cmd;
         });
     </script>
 </body>
