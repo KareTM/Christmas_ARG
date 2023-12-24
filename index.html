@@ -203,6 +203,9 @@
                             new_line.appendChild(text_new);
 
                             term.insertBefore(new_line, curr_line);
+
+                            temp = document.getElementById("scroll")
+                            temp.scrollTop = temp.scrollHeight;
                         })
                     }
                 };
