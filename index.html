@@ -11,6 +11,8 @@
         width: 50%;
         margin-left: 25%;
         overflow-y: scroll;
+        overflow-x: hidden;
+        word-wrap: normal;
         overflow-anchor: none;
     }
 
@@ -77,6 +79,7 @@
 </style>
 
 <body class="terminal">
+    <input type="text" id="dummyInput" style="position: absolute; top: -9999px; left: -9999px; opacity: 0;">
     <div class="title">
         <span class="title_text">
             The Kare Christmas ARG
@@ -88,6 +91,13 @@
     </div>
 
     <script>
+        window.onload = function () {
+            var dummyInput = document.getElementById('dummyInput');
+            dummyInput.focus();
+            dummyInput.blur();
+        };
+
+
         term_user = "guest@santa-cluster";
         folder = "~";
 
@@ -120,7 +130,7 @@
 
                 // Append the new curr_line to the terminal
                 term.appendChild(curr_line);
-                
+
                 temp = document.getElementById("scroll")
                 temp.scrollTop = temp.scrollHeight;
             } else if (e.key == "Backspace") {
@@ -128,7 +138,7 @@
                 user_cmd = user_cmd.slice(0, -1);
             } else {
                 // Check if the pressed key is an ASCII character
-                if (/^[ -~]$/.test(e.key)) {
+                if (user_cmd.length < 70 && /^[ -~]$/.test(e.key)) {
                     user_cmd += e.key;
                 }
             }
