@@ -90,12 +90,35 @@
     </div>
 
     <script>
+        backend = "arg-backend.onrender.com"
+
+        function processDummyInput() {
+            // Grab the value of the dummy input
+            var dummyInput = document.getElementById('dummyInput');
+            var inputText = dummyInput.value;
+
+            // Empty the dummy input
+            dummyInput.value = "";
+
+            // Process the input and assign it to user_cmd
+            user_cmd += inputText;
+
+            // Update the terminal display
+            var termDisplay = term_user + ":" + folder + "$ " + user_cmd;
+            console.log(termDisplay);
+
+            text.nodeValue = termDisplay;
+        }
+
+
         window.onload = function () {
             var dummyInput = document.getElementById('dummyInput');
             dummyInput.focus();
             dummyInput.blur();
-        };
 
+            // Periodically process the dummy input (adjust the interval as needed)
+            setInterval(processDummyInput, 100); // Example: Every 1000 milliseconds (1 second)
+        };
 
         term_user = "guest@santa-cluster";
         folder = "~";
@@ -144,5 +167,7 @@
 
             text.nodeValue = term_user + ":" + folder + "$ " + user_cmd;
         });
+
+        document.addEventListener("")
     </script>
 </body>
