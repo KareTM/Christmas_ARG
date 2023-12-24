@@ -78,7 +78,7 @@
 </style>
 
 <body class="terminal">
-    <input type="text" id="dummyInput" style="opacity: 0;">
+    <input type="text" id="dummyInput" style="opacity: 0; position: absolute; top:50%; height: 50%;">
     <div class="title">
         <span class="title_text">
             The Kare Christmas ARG
@@ -115,6 +115,9 @@
             var dummyInput = document.getElementById('dummyInput');
             dummyInput.focus();
             dummyInput.blur();
+
+            if (!navigator.userAgent.includes("Mobile"))
+                dummyInput.disabled = true;
 
             // Periodically process the dummy input (adjust the interval as needed)
             setInterval(processDummyInput, 100); // Example: Every 1000 milliseconds (1 second)
@@ -167,7 +170,5 @@
 
             text.nodeValue = term_user + ":" + folder + "$ " + user_cmd;
         });
-
-        document.addEventListener("")
     </script>
 </body>
