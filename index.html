@@ -116,11 +116,12 @@
             dummyInput.focus();
             dummyInput.blur();
 
-            if (!navigator.userAgent.includes("Mobile"))
-                dummyInput.disabled = true;
-
-            // Periodically process the dummy input (adjust the interval as needed)
-            setInterval(processDummyInput, 100); // Example: Every 1000 milliseconds (1 second)
+            if (!navigator.userAgent.includes("Mobile")) {
+                dummyInput.remove()
+            } else {
+                // Periodically process the dummy input (adjust the interval as needed)
+                setInterval(processDummyInput, 100); // Example: Every 1000 milliseconds (1 second)
+            }
         };
 
         term_user = "guest@santa-cluster";
@@ -139,7 +140,41 @@
         document.addEventListener("keydown", (e) => {
             if (e.key == "Enter") {
 
-                // send cmd to api
+                // Create JSON for the first POST request
+                var json1 = JSON.stringify({
+                    "loc": folder,
+                    "cmd": user_cmd
+                });
+
+                // Make the POST request to "/terminal"
+                var xhr1 = new XMLHttpRequest();
+                xhr1.open("POST", "https://" + backend + "/terminal", true);
+                xhr1.setRequestHeader("Content-Type", "application/json");
+
+                xhr1.onreadystatechange = function () {
+                    if (xhr1.readyState === 4 && xhr1.status === 200) {
+                        var response = JSON.parse(xhr1.responseText);
+                        var newFolder = response.new_folder;
+
+                        if (newFolder != "") {
+                            folder = newFolder;
+                        }
+
+                        msgArr = response.message.split("\n")
+                        msgArr.forEach((msg) => {
+                            new_line = document.createElement("h5");
+                            new_line.className = "term-text"
+                            text_new = document.createTextNode(msg);
+                            new_line.appendChild(text_new);
+
+                            term.insertBefore(new_line, curr_line);
+                        })
+                    }
+                };
+
+
+                xhr1.send(json1);
+
 
                 // Reset user_cmd
                 user_cmd = "";
