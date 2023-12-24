@@ -78,7 +78,7 @@
 </style>
 
 <body class="terminal">
-    <input type="text" id="dummyInput" style="opacity: 0; position: absolute; top:50%; height: 50%;">
+    <input type="text" id="dummyInput" style="opacity: 0; position: absolute; top:20%; height: 100%;">
     <div class="title">
         <span class="title_text">
             The Kare Christmas ARG
@@ -101,7 +101,7 @@
             dummyInput.value = "";
 
             // Process the input and assign it to user_cmd
-            user_cmd += inputText;
+            user_cmd += inputText.toLowerCase();
 
             // Update the terminal display
             var termDisplay = term_user + ":" + folder + "$ " + user_cmd;
