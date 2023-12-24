@@ -133,16 +133,9 @@
                     var solved = response.solved;
 
                     if (solved) {
-                        a = document.getElementById("invite")
-                        if (a != null)
-                            a.remove()
-
-                        b = document.getElementById("dumform")
-
-                        if (b != null)
-                            b.remove()
-
                         cont = document.getElementById("cont");
+                        cont.innerHTML = '';
+
                         inst = document.createElement("h1");
                         inst.className = "solve_text";
                         inst_text = "Congratulations! Send to the owner this code: " + getCookie("userHashID");
