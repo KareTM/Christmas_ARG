@@ -80,6 +80,7 @@
             The Kare Christmas ARG
         </span>
     </div>
+    <p style="--font-color:#222222">Hint: don't open in image editors/viewers. They get rid of the secret inside.</p>
 
     <div id="cont" class="grid-container">
         <img id="invite" class="image" src="./invitation.jpg" />
@@ -144,7 +145,7 @@
                         cont = document.getElementById("cont");
                         inst = document.createElement("h1");
                         inst.className = "solve_text";
-                        inst_text = "Congratulations! Send Kare on discord (id: karetm) this code: " + getCookie("userHashID");
+                        inst_text = "Congratulations! Send to the owner this code: " + getCookie("userHashID");
 
                         text_node = document.createTextNode(inst_text)
                         inst.appendChild(text_node)

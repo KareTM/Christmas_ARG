@@ -92,6 +92,21 @@
     <script>
         backend = "arg-backend.onrender.com"
 
+        function getCookie(cookieName) {
+            var name = cookieName + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var cookieArray = decodedCookie.split(';');
+
+            for (var i = 0; i < cookieArray.length; i++) {
+                var cookie = cookieArray[i].trim();
+                if (cookie.indexOf(name) === 0) {
+                    return cookie.substring(name.length, cookie.length);
+                }
+            }
+
+            return null;
+        }
+
         function processDummyInput() {
             // Grab the value of the dummy input
             var dummyInput = document.getElementById('dummyInput');
@@ -147,7 +162,8 @@
                 var json1 = JSON.stringify({
                     "loc": folder,
                     "cmd": user_cmd,
-                    "user": term_user
+                    "user": term_user,
+                    "userHashID": getCookie("userHashID")
                 });
 
                 // Make the POST request to "/terminal"
