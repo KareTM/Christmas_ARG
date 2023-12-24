@@ -117,7 +117,8 @@
 
             // Create JSON for the first POST request
             var json1 = JSON.stringify({
-                "solution": solution_text
+                "solution": solution_text,
+                "userHashID": getCookie("userHashID")
             });
 
             // Make the first POST request to "/users"
