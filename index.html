@@ -1,5 +1,139 @@
 <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css" />
 
+<style>
+    body {
+        background-color: #222222;
+    }
+
+    .grid-container {
+        height: 50%;
+        background-color: black;
+        width: 50%;
+        margin-left: 25%;
+        overflow-y: scroll;
+        overflow-anchor: none;
+    }
+
+    .term-grid {
+        display: grid;
+        margin-top: 1em;
+        grid-column-gap: 1em;
+        gap: 0px;
+        grid-row-gap: 0px;
+        grid-template-columns: 1;
+        grid-template-rows: auto;
+        background-color: black;
+        --font-color: #00ff00;
+        --primary-color: #ffffff;
+    }
+
+    .term-text {
+        height: fit-content;
+        border: 0%;
+        margin: 0;
+    }
+
+    .terminal-prompt::before {
+        display: none;
+    }
+
+    .terminal-prompt::after {
+        width: 10px;
+    }
+
+    .terminal-prompt {
+        margin-bottom: 0%;
+        overflow-anchor: auto;
+    }
+
+    .last_cmd {
+        display: inline-block;
+        padding: 0%;
+    }
+
+    .title {
+        margin: auto;
+        width: 50%;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 4em;
+        line-height: 4em;
+        font-weight: bold;
+        height: fit-content !important;
+        overflow: visible;
+        margin-bottom: 1%;
+        margin-top: 1%;
+    }
+
+    .title_text {
+        align-self: center;
+        width: fit-content;
+        height: fit-content;
+        background-image: linear-gradient(90deg, #ff1111, #22ff22);
+        background-clip: text;
+        -moz-text-fill-color: transparent;
+        -webkit-text-fill-color: transparent;
+    }
+</style>
+
 <body class="terminal">
-<h5 class="terminal-prompt">Terminal Prompt</h5>
+    <div class="title">
+        <span class="title_text">
+            The Kare Christmas ARG
+        </span>
+    </div>
+
+    <div id="scroll" class="grid-container">
+        <div id="terminal_box" class="container term-grid"></div>
+    </div>
+
+    <script>
+        term_user = "guest@santa-cluster";
+        folder = "~";
+
+        term = document.getElementById("terminal_box");
+        user_cmd = "";
+
+        curr_line = document.createElement("h5");
+        curr_line.className = "terminal-prompt";
+
+        text = document.createTextNode(term_user + ":" + folder + "$ " + user_cmd);
+        curr_line.appendChild(text);
+        term.appendChild(curr_line);
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key == "Enter") {
+
+                // send cmd to api
+
+                // Reset user_cmd
+                user_cmd = "";
+
+                // Remove the "terminal-prompt" class from the current line
+                curr_line.className = "term-text"
+
+                // Create a new curr_line below the current one
+                curr_line = document.createElement("h5");
+                curr_line.className = "terminal-prompt";
+                text = document.createTextNode(term_user + ":" + folder + "$ " + user_cmd);
+                curr_line.appendChild(text);
+
+                // Append the new curr_line to the terminal
+                term.appendChild(curr_line);
+                
+                temp = document.getElementById("scroll")
+                temp.scrollTop = temp.scrollHeight;
+            } else if (e.key == "Backspace") {
+                // Remove the last character from user_cmd
+                user_cmd = user_cmd.slice(0, -1);
+            } else {
+                // Check if the pressed key is an ASCII character
+                if (/^[ -~]$/.test(e.key)) {
+                    user_cmd += e.key;
+                }
+            }
+
+            text.nodeValue = term_user + ":" + folder + "$ " + user_cmd;
+        });
+    </script>
 </body>
